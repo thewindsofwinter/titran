@@ -15,32 +15,36 @@ def translate_line(line, indent_level):
         return f"def {name}():"
 
     # Translate "HEY IMSA [(A, B, C...) FROM NAME]:" to "def NAME(A, B, C...):"
-    match = re.match(r"HEY IMSA \[(.+?) FROM (\w+)\]:", line)
+    match = re.match(r"HEY IMSA \[(.+?) from (\w+)\]:", line)
     if match:
         parameters = match.group(1)
         name = match.group(2)
-        return f"def {name}({parameters}):"
+        return f"def {name}{parameters}:"
 
     # Translate "{content ready for interior of a print statement}" to "print(content)"
     if line.startswith("{") and line.endswith("}"):
         content = line[1:-1].strip()
+        if content[0] != "\"":
+            content = translate_line(content, 0)
         return f"{indent_level * '    '}print({content})"
 
-    # Translate "PARAMETER PLEASE REPORT TO {VALUE}" to "PARAMETER = VALUE"
-    match = re.match(r"(\w+) PLEASE REPORT TO {(.*?)}", line)
-    if match:
-        parameter = match.group(1)
-        value = match.group(2)
-        return f"{indent_level * '    '}{parameter} = {value}"
-
     # Translate "PARAMETER PLEASE REPORT TO {"prompt" IMMEDIATELY}" to "PARAMETER = input("prompt")"
-    match = re.match(r"(\w+) PLEASE REPORT TO {\"(.*)\" IMMEDIATELY}", line)
+    match = re.match(r"(\w+) PLEASE REPORT TO (.*){\"(.*)\" IMMEDIATELY}", line)
     if match:
         parameter = match.group(1)
-        prompt = match.group(2)
-        return f'{indent_level * "    "}{parameter} = input("{prompt}")'
+        cast = match.group(2)
+        prompt = match.group(3)
+        return f'{indent_level * "    "}{parameter} = {cast}(input("{prompt}"))'
     
-    if line == "ITS GONNA BE LIT!" or line == "THE MAIN BUILDING IS CLOSING":
+    # Translate "PARAMETER PLEASE REPORT TO {VALUE}" to "PARAMETER = VALUE"
+    match = re.match(r"(\w+) PLEASE REPORT TO (.*)?{(.*?)}", line)
+    if match:
+        parameter = match.group(1)
+        cast = match.group(2)
+        value = match.group(3)
+        return f"{indent_level * '    '}{parameter} = {cast}({value})"
+    
+    if line == "ITS GONNA BE LIT!" or line == "THE MAIN BUILDING IS CLOSING" or line == "IF SO, COME DOWN TO THE TV PIT!":
         return f"{indent_level * '    '}"
     
     # Translate "ANNOUNCEMENT FROM [FUNCTION NAME]" to "function_name()"
@@ -48,6 +52,13 @@ def translate_line(line, indent_level):
     if match:
         function_name = match.group(1)
         return f"{indent_level * '    '}{function_name}()"
+    
+    # Translate "ANNOUNCEMENT BY (A, B, C...) FROM [FUNCTION NAME]" to "function_name(A, B, C...)"
+    match = re.match(r"ANNOUNCEMENT BY {(.+?)} FROM (\w+)", line)
+    if match:
+        parameters = match.group(1)
+        function_name = match.group(2)
+        return f"{indent_level * '    '}{function_name}({parameters})"
 
     # Translate "ANNOUNCEMENT BY (A, B, C...) FROM [FUNCTION NAME]" to "function_name(A, B, C...)"
     match = re.match(r"ANNOUNCEMENT BY (.+?) FROM (\w+)", line)
@@ -55,7 +66,21 @@ def translate_line(line, indent_level):
         parameters = match.group(1)
         function_name = match.group(2)
         return f"{indent_level * '    '}{function_name}({parameters})"
-
+    
+    match = re.match(r"HEY (\w+), ARE YOU {(.*?)}:", line)
+    if match:
+        variables = match.group(1)
+        parameters = match.group(2)
+        return f"{indent_level * '    '}if {variables} {parameters}:"
+    
+    match = re.match(r"OR DO YOU JUST WANT PIZZA:", line)
+    if match:
+        return f"{(indent_level - 1) * '    '}else:"
+    
+    match = re.match(r"BE THERE OR BE SQUARE {(.*?)}$", line)
+    if match:
+        parameters = match.group(1)
+        return f"{indent_level * '    '}return {translate_line(parameters, 0)}"
 
     # Return the line as is if no translation rule matches
     return f"{indent_level * '    '}{line}"
@@ -67,7 +92,6 @@ def translate_titran(code):
     indent_level = 0
 
     for line in lines:
-        print(line, indent_level)
         translated_line = translate_line(line, indent_level)
         translated_code.append(translated_line)
 
@@ -75,9 +99,9 @@ def translate_titran(code):
             main_function = True
 
         # Track the indentation level
-        if line.strip().startswith("HEY IMSA") or line.strip().startswith("GOOD MORNING IMSA"):
+        if line.strip().startswith("HEY ") or line.strip().startswith("GOOD MORNING IMSA") or line.strip().startswith("WERE HOSTING A FUNDRAISER AT 05 SLABS"):
             indent_level += 1
-        if line.strip().startswith("ITS GONNA BE LIT!") or line.strip().startswith("THE MAIN BUILDING"):
+        if line.strip().startswith("ITS GONNA BE LIT!") or line.strip().startswith("THE MAIN BUILDING") or line.strip().startswith("IF SO, COME DOWN TO THE TV PIT!"):
             indent_level -= 1
 
     if main_function:
@@ -87,7 +111,7 @@ def translate_titran(code):
 
 def convert(input_file, output_file='output.py'):
     # Read the input file
-    with open(input_file, 'r') as file:
+    with open(input_file, 'r', encoding="utf8") as file:
         titran_code = file.read().strip()
 
     # Translate the Titran code
