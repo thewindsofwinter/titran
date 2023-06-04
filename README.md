@@ -21,7 +21,40 @@ A: You have learned a valuable lesson in the reliability of hacky projects from 
 
 ## Specifications
 
-Functions are defined as club announcements for certain club names. Each function is prefixed with "HEY IMSA" and ends with "ITS GONNA BE LIT"
+Functions are defined as club announcements for certain club names. Variable names are, by tradition, the people giving the announcement. Generally speaking, "HEY" precedes any statement increasing indentation, and the main function is a history of all announcements throughout a given day. In more detail, here's the subset of Python that we modify:
+
+```
+Special Number Literals: 150X = X
+SECURITY = 0
+
+MULTIPLY = COLLAB BETWEEN(CLUB1, CLUB2), where CLUB1 and CLUB2 are arbitrary expressions
+
+DEFINE FUNCTION: HEY IMSA [(parameters are people) FROM CLUB_NAME]
+END FUNCTION: IT’S GONNA BE LIT
+
+CALL FUNCTION: 
+ANNOUNCEMENT FROM CLUB_NAME
+ANNOUNCEMENT BY (names) FROM CLUB_NAME
+
+BEGIN MAIN: GOOD MORNING IMSA
+END MAIN: THE MAIN BUILDING IS CLOSING
+
+ASSIGN VARIABLE: 
+[person] PLEASE REPORT TO {[statement]}
+[person] PLEASE REPORT TO {[statement] IMMEDIATELY} (input from standard in)
+
+RETURN: BE THERE OR BE SQUARE
+PRINT: {[statement]}
+
+IF STATEMENT: HEY [NAME], ARE YOU [CONDITIONAL?]:
+ELSE IF: OR ARE YOU [X]?
+ELSE: OR DO YOU JUST WANT FREE PIZZA?
+END IF BLOCK: Then come down to the [PLACE] right now!
+
+WHILE LOOP: We’re hosting a fundraiser at 05 slabs!
+END WHILE: Get your stuff while [conditional]
+```
+
 
 ## Testing
 To test, run the following command from the root directory of the cloned repository.
