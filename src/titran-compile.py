@@ -82,6 +82,13 @@ def translate_line(line, indent_level):
         parameters = match.group(1)
         return f"{indent_level * '    '}return {translate_line(parameters, 0)}"
 
+    match = re.match(r"COLLAB BETWEEN\((.*?), (.*?)\)$", line)
+    if match:
+        left = match.group(1)
+        right = match.group(2)
+        return f"{indent_level * '    '}{translate_line(left, 0)} * {translate_line(right, 0)}"
+
+
     # Return the line as is if no translation rule matches
     return f"{indent_level * '    '}{line}"
 
