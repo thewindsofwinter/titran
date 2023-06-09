@@ -15,11 +15,17 @@ A: A few advantages for the unbelievers:
  - Titran ignores all lines of code that are not Titran: you can integrate it into Python as needed.
  - Whitespace doesn't matter in Titran, so no more annoying bugs based on blank space!
 
-**Q: I wrote my spaceship launch computer [or equally important software] in TITRAN and it broke.**
+**Q: I wrote my spaceship launch computer [or equally important software] in Titran and it broke.**
 
 A: You have learned a valuable lesson in the reliability of hacky projects from teenagers. That said, please email andyyt2@stanford.edu with bugs and how the code broke: we will fix things as quickly as we can. We accept no liability for use of this code (sorry about your billion-dollar rocketship).
 
+**Q: Is Titran related to Fortran?**
+
+A: We certainly hope to be as easy to learn! Otherwise, the two share only one fact: Fortran was made for scientific computation, and Titran was made from announcements at the Illinois Math and Science Academy.
+
 ## Specifications
+
+
 
 Functions are defined as club announcements for certain club names. Variable names are, by tradition, the people giving the announcement. Generally speaking, "HEY" precedes any statement increasing indentation, and the main function is a history of all announcements throughout a given day. In more detail, here's the subset of Python that we modify:
 
