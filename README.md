@@ -17,17 +17,19 @@ A: A few advantages for the unbelievers:
 
 **Q: I wrote my spaceship launch computer [or equally important software] in Titran and it broke.**
 
-A: You have learned a valuable lesson in the reliability of hacky projects from teenagers. That said, please email andyyt2@stanford.edu with bugs and how the code broke: we will fix things as quickly as we can. We accept no liability for use of this code (sorry about your billion-dollar rocketship).
+A: You have learned a valuable lesson in the reliability of hacky projects from teenagers. That said, please email andyyt2 at stanford dot edu with bugs and how the code broke: we will fix things as quickly as we can. We accept no liability for use of this code (sorry about your billion-dollar rocketship).
 
 **Q: Is Titran related to Fortran?**
 
-A: We certainly hope to be as easy to learn! Otherwise, the two share only one fact: Fortran was made for scientific computation, and Titran was made from announcements at the Illinois Math and Science Academy.
+A: We certainly hope to be as easy to learn! Otherwise, the two share only one fact: Fortran was made for scientific computation, and Titran was made from announcements at the Illinois Math and Science Academy. We certainly take the "screw around and find out" view of things, popularized by languages like C.
 
 ## Specifications
 
+There are two scopes for our program: Titran scope and Python scope. The program, by default, is in Titran scope. In Titran scope, you can switch to Python scope through the opening and closing characters `P{` and `}Y`. In Python scope, you can switch back to Titran scope using `IM{` and `}SA`. The general gist of our language is that functions are defined as club announcements, with variable names defined as the people giving the announcement, by tradition. This maximizes the chance of said person feeling slighted by the way you wrote the function, resulting in familiar, joyful high school drama. The main function is defined as a chronicle of an ordinary high school day.
 
+Note that Titran does not throw compiler errors and will joyfully spit out garbage if you code things wrong. It will try to indent properly for Python, but this is never perfect. Do email me (andyyt2 at stanford dot edu) and/or open an issue if you discover any bugs though, I will joyfully fix them.
 
-Functions are defined as club announcements for certain club names. Variable names are, by tradition, the people giving the announcement. Generally speaking, "HEY" precedes any statement increasing indentation, and the main function is a history of all announcements throughout a given day. In more detail, here's the subset of Python that we modify:
+In more detail, here's the subset of Python that we modify:
 
 ```
 Special Number Literals: 150X = X
